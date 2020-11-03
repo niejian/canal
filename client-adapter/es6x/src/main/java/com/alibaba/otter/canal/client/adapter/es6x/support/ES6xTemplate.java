@@ -334,6 +334,23 @@ public class ES6xTemplate implements ESTemplate {
             }
         }
 
+        // 如果是父子文档关系的话给esFieldData添加parent信息
+        if (!mapping.getRelations().isEmpty()) {
+            mapping.getRelations().forEach((relationField, relationMapping) -> {
+                logger.info("relationField: {}", relationField);
+                logger.info("relationName: {}", relationMapping.getName());
+                // 获取关联的字段信息
+                String relationParent = relationMapping.getParent();
+                logger.info("relationParent: {}", relationParent);
+                if (dmlData.containsKey(relationParent)) {
+                    esFieldData.put(relationParent, dmlData.get(relationParent).toString());
+                    dmlOld.put(relationParent, dmlData.get(relationParent).toString());
+                    return;
+                }
+
+            });
+        }
+
         // 添加父子文档关联信息
         putRelationData(mapping, schemaItem, dmlOld, esFieldData);
         return resultIdVal;

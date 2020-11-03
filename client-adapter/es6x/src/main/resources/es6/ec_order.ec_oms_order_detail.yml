@@ -1,0 +1,50 @@
+dataSourceKey: ec_order
+destination: order_es
+groupId: g7
+esMapping:
+  _index: ec_oms_order_map_order_detail
+  _type: _doc
+  _id: _id
+  relations:
+    join_order_detail:
+      name: indice_ec_oms_order_detail
+      parent: order_code
+  upsert: true
+  sql: "
+   select
+     id as _id,
+     id,
+     order_code as order_code,
+     product_code,
+     shop_pro_name as order_detail_shop_pro_name,
+     buy_num,
+     actual_num,
+     gross_weight as order_detail_gross_weight,
+     pro_type,
+     outter_id,
+     add_present_type,
+     is_present,
+     is_convert,
+     original_id,
+     original_product_code,
+     sys_price,
+     price_logic,
+     is_price_structure,
+     pro_one_price,
+     pro_all_price,
+     pro_shop_discount_amt,
+     pro_plat_discount_amt,
+     pro_pay_amt,
+     order_shop_discount_share,
+     order_plat_discount_share,
+     shop_discount_amt,
+     plat_discount_amt,
+     shipment,
+     del_flag as order_detail_del_flag
+  from ec_order.ec_oms_order_product_detail
+ "
+  #skips:
+  #  - order_code
+
+#etlCondition: "where create_time>='{0}'"
+commitBatch: 1

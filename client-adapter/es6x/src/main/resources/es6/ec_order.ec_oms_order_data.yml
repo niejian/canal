@@ -1,0 +1,83 @@
+dataSourceKey: ec_order
+destination: order_es
+groupId: g7
+esMapping:
+  _index: ec_oms_order_map_order_detail
+  _type: _doc
+  _id: _id
+  relations:
+    join_order_detail:
+      name: indice_ec_oms_order
+  upsert: true
+  sql: "select
+      order_code, 
+      order_code as _id,
+      shop_order_id,
+      shop_code,
+      relate_order_code,
+      plat_order_status,
+      breed_num,
+      pro_total_num,
+      gross_weight,
+      buyer_nick,
+      has_buyer_message,
+      buyer_message,
+      seller_message,
+      invoice_type,
+      invoice_title,
+      country,
+      province,
+      city,
+      district,
+      town,
+      village,
+      address,
+      post_code,
+      receiver_name,
+      receiver_mobile,
+      receiver_phone,
+      send_channel,
+      storehouse_code,
+      storehouse_name,
+       
+      express_code,
+      express_name,
+      waybill_code,
+      order_all_price,
+      order_shop_pro_discount_amt,
+      order_plat_pro_discount_amt,
+      order_shop_discount_amt,
+      order_plat_discount_amt,
+      shop_all_discount_amt,
+      plat_all_discount_amt,
+      order_pro_pay_amt,
+      order_pay_amt,
+      order_received_amt,
+      order_all_shipment,
+      price_control_discrepancy,
+      split_order,
+      merge_order,
+      client_code,
+      pro_codes,
+      shop_pro_name,
+      remark,
+      import_cause,
+      import_nopass_cause,
+      import_examine_code,
+      import_examine_name,
+      dispatch_fail_reason,
+      dispatch_type,
+      hang_emp_code,
+      hang_emp_name,
+      create_time,
+      last_update_time,
+      del_flag,
+      creator_id,
+      creator_name,
+      reissue_relate_order_code,
+      sale_channel,
+      return_reason
+    from ec_order.ec_oms_order  "
+  etlCondition: "where create_time>='{0}'"
+  commitBatch: 1
+
